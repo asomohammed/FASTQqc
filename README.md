@@ -63,7 +63,7 @@ A comprehensive, production-ready quality control analysis tool for 10x Genomics
 
 ```bash
 # Download the setup script
-wget https://github.com/asomohammed/FASTQqc/main/setup_enhanced.sh
+wget https://github.com/asomohammed/FASTQqc
 
 # Make it executable
 chmod +x setup_enhanced.sh
@@ -76,10 +76,10 @@ chmod +x setup_enhanced.sh
 
 ```bash
 # Create conda environment
-conda create -n fastq_qc_enhanced python=3.9 -y
+conda create -n fastq_qc python=3.9 -y
 
 # Activate environment
-conda activate fastq_qc_enhanced
+conda activate fastq_qc
 
 # Install dependencies
 conda install -c conda-forge -c bioconda \
@@ -109,8 +109,8 @@ pip install -r requirements_enhanced.txt
 ### Verify Installation
 
 ```bash
-conda activate fastq_qc_enhanced
-python fastq_qc_analyzer_enhanced.py --help
+conda activate fastq_qc
+python fastq_qc.py --help
 ```
 
 ---
@@ -121,10 +121,10 @@ python fastq_qc_analyzer_enhanced.py --help
 
 ```bash
 # Activate environment
-conda activate fastq_qc_enhanced
+conda activate fastq_qc
 
 # Run analysis
-python fastq_qc_analyzer_enhanced.py \
+python fastq_qc.py \
   -i /path/to/fastq/directory \
   -o /path/to/output/directory
 ```
@@ -132,7 +132,7 @@ python fastq_qc_analyzer_enhanced.py \
 ### Full Dataset Analysis
 
 ```bash
-python fastq_qc_analyzer_enhanced.py \
+python fastq_qc.py \
   -i /path/to/fastq/directory \
   -o /path/to/output/directory \
   --all
@@ -155,7 +155,7 @@ xdg-open output_directory/qc_report.html
 ### Command-Line Options
 
 ```bash
-python fastq_qc_analyzer_enhanced.py [OPTIONS]
+python fastq_qc.py [OPTIONS]
 
 Required Arguments:
   -i, --input DIR          Input directory containing FASTQ files
@@ -212,7 +212,7 @@ your_fastq_directory/
 **Best for:** Quick QC checks, large datasets, routine analysis
 
 ```bash
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 100000
+python fastq_qc.py -i INPUT -o OUTPUT -s 100000
 ```
 
 **Features:**
@@ -231,7 +231,7 @@ python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 100000
 **Best for:** Final QC, publication, accurate cell counts
 
 ```bash
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT --all
+python fastq_qc.py -i INPUT -o OUTPUT --all
 ```
 
 **Features:**
@@ -366,7 +366,7 @@ Each metric is automatically assessed as **PASS**, **WARN**, or **FAIL**:
 
 ```bash
 # Fast QC check of one sample
-python fastq_qc_analyzer_enhanced.py \
+python fastq_qc.py \
   -i ./fastq_data/Sample1 \
   -o ./qc_results/Sample1_QC
 
@@ -378,7 +378,7 @@ firefox ./qc_results/Sample1_QC/qc_report.html
 
 ```bash
 # Comprehensive analysis using 8 threads
-python fastq_qc_analyzer_enhanced.py \
+python fastq_qc.py \
   -i ./fastq_data/Sample1 \
   -o ./qc_results/Sample1_Full_QC \
   --all \
@@ -389,7 +389,7 @@ python fastq_qc_analyzer_enhanced.py \
 
 ```bash
 # Analyze 200k reads per file
-python fastq_qc_analyzer_enhanced.py \
+python fastq_qc.py \
   -i ./fastq_data/Sample1 \
   -o ./qc_results/Sample1_QC \
   -s 200000 \
@@ -404,7 +404,7 @@ for sample_dir in ./fastq_data/S*; do
   sample_name=$(basename $sample_dir)
   echo "Processing $sample_name..."
   
-  python fastq_qc_analyzer_enhanced.py \
+  python fastq_qc.py \
     -i "$sample_dir" \
     -o "./qc_results/${sample_name}_QC" \
     -t 8
@@ -446,7 +446,7 @@ for exp in "${EXPERIMENTS[@]}"; do
   echo "=== Processing $exp ==="
   
   # Run QC
-  python fastq_qc_analyzer_enhanced.py \
+  python fastq_qc.py \
     -i "$BASE_DIR/$exp/fastq" \
     -o "$BASE_DIR/$exp/qc" \
     --all \
@@ -482,12 +482,12 @@ Tested on: Intel Xeon E5-2680 v4 @ 2.40GHz, 64GB RAM, SSD storage
 
 1. **Use Sampled Mode** for routine QC
    ```bash
-   python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT
+   python fastq_qc.py -i INPUT -o OUTPUT
    ```
 
 2. **Increase Threads** for faster processing
    ```bash
-   python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -t 16
+   python fastq_qc.py -i INPUT -o OUTPUT -t 16
    ```
 
 3. **Use SSD Storage** for I/O-intensive operations
@@ -497,7 +497,7 @@ Tested on: Intel Xeon E5-2680 v4 @ 2.40GHz, 64GB RAM, SSD storage
 5. **Process Samples in Parallel** for multiple samples
    ```bash
    # Use GNU parallel
-   parallel -j 4 python fastq_qc_analyzer_enhanced.py -i {} -o {}_QC ::: Sample*
+   parallel -j 4 python fastq_qc.py -i {} -o {}_QC ::: Sample*
    ```
 
 ---
@@ -530,10 +530,10 @@ ls -lh /path/to/fastq/
 **Solutions:**
 ```bash
 # Solution 1: Use sampled mode
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT
+python fastq_qc.py -i INPUT -o OUTPUT
 
 # Solution 2: Reduce sample size
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 50000
+python fastq_qc.py -i INPUT -o OUTPUT -s 50000
 
 # Solution 3: Close other applications
 # Solution 4: Use a machine with more RAM
@@ -546,14 +546,14 @@ python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 50000
 **Solutions:**
 ```bash
 # Solution 1: Use sampled mode
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT
+python fastq_qc.py -i INPUT -o OUTPUT
 
 # Solution 2: Increase threads
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -t 16
+python fastq_qc.py -i INPUT -o OUTPUT -t 16
 
 # Solution 3: Use faster storage (SSD)
 # Solution 4: Reduce sample size
-python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 50000
+python fastq_qc.py -i INPUT -o OUTPUT -s 50000
 ```
 
 #### 4. Import Errors
@@ -563,12 +563,12 @@ python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 50000
 **Solutions:**
 ```bash
 # Reinstall dependencies
-conda activate fastq_qc_enhanced
+conda activate fastq_qc
 conda install -c conda-forge -c bioconda biopython matplotlib seaborn pandas numpy plotly tqdm -y
 pip install kaleido
 
 # Or recreate environment
-conda env remove -n fastq_qc_enhanced
+conda env remove -n fastq_qc
 ./setup_enhanced.sh
 ```
 
@@ -586,7 +586,7 @@ mkdir -p /path/to/output
 chmod 755 /path/to/output
 
 # Or use a different output directory
-python fastq_qc_analyzer_enhanced.py -i INPUT -o ~/qc_results
+python fastq_qc.py -i INPUT -o ~/qc_results
 ```
 
 #### 6. Corrupted FASTQ Files
