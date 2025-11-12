@@ -115,7 +115,7 @@ python fastq_qc_analyzer_enhanced.py --help
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Basic Usage (Sampled Mode)
 
@@ -216,7 +216,7 @@ python fastq_qc_analyzer_enhanced.py -i INPUT -o OUTPUT -s 100000
 ```
 
 **Features:**
-- ⚡ Fast analysis (minutes)
+- Fast analysis (minutes)
 - Low memory usage
 - Representative statistics
 - Suitable for >100M reads
