@@ -462,7 +462,7 @@ python generate_comparison_report.py \
 
 ---
 
-## ⚡ Performance
+## Performance
 
 ### Benchmark Results
 
