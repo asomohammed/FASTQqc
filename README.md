@@ -1,8 +1,6 @@
 # Enhanced 10x Genomics FASTQ QC Analyzer v2.0
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/fastq-qc-analyzer)
 
 A comprehensive, production-ready quality control analysis tool for 10x Genomics single-cell RNA-seq FASTQ files. Provides detailed QC metrics, interactive visualizations, and automated quality assessment with both **sampled** and **full dataset** analysis modes.
 
