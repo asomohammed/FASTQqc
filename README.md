@@ -1,4 +1,4 @@
-# Enhanced 10x Genomics FASTQ QC Analyzer v2.0
+# E Genomics FASTQ QC Analyzer
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
