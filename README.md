@@ -340,21 +340,6 @@ Each metric is automatically assessed as **PASS**, **WARN**, or **FAIL**:
 | **GC Content** | 40-60% | Outside range | - |
 | **Duplication Rate** | < 20% | 20-40% | > 40% |
 
-### Quality Indicators
-
-🟢 **PASS**: All metrics meet quality standards
-- Proceed with downstream analysis
-- Data quality is excellent
-
-🟡 **WARN**: Some metrics need attention
-- Review specific warnings
-- May proceed with caution
-- Consider re-sequencing if critical
-
-🔴 **FAIL**: Critical quality issues detected
-- Do not proceed with analysis
-- Re-sequencing recommended
-- Check library preparation
 
 ---
 
