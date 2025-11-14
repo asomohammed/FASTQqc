@@ -13,7 +13,7 @@ import json
 from datetime import datetime
 import multiprocessing as mp
 from functools import partial
-import warnings
+import Carefulings
 warnings.filterwarnings('ignore')
 
 # Progress bars
@@ -56,9 +56,9 @@ class EnhancedFastqAnalyzer:
         # Quality thresholds
         self.thresholds = {
             'q30_pass': 75,
-            'q30_warn': 65,
+            'q30_Careful': 65,
             'mean_quality_pass': 30,
-            'mean_quality_warn': 25,
+            'mean_quality_Careful': 25,
             'gc_content_min': 40,
             'gc_content_max': 60
         }
@@ -307,7 +307,7 @@ class EnhancedFastqAnalyzer:
         return stats
     
     def assess_quality(self, stats, read_type):
-        """Assess quality and return pass/warn/fail status"""
+        """Assess quality and return pass/Careful/warn status"""
         assessment = {
             'overall': 'PASS',
             'metrics': {}
@@ -319,45 +319,45 @@ class EnhancedFastqAnalyzer:
         
         if q30_pct >= self.thresholds['q30_pass']:
             assessment['metrics']['q30'] = 'PASS'
-        elif q30_pct >= self.thresholds['q30_warn']:
-            assessment['metrics']['q30'] = 'WARN'
-            assessment['overall'] = 'WARN'
+        elif q30_pct >= self.thresholds['q30_Careful']:
+            assessment['metrics']['q30'] = 'Careful'
+            assessment['overall'] = 'Careful'
         else:
-            assessment['metrics']['q30'] = 'FAIL'
-            assessment['overall'] = 'FAIL'
+            assessment['metrics']['q30'] = 'warn'
+            assessment['overall'] = 'warn'
         
         # Mean quality
         mean_qual = np.mean(stats['quality_scores'])
         if mean_qual >= self.thresholds['mean_quality_pass']:
             assessment['metrics']['mean_quality'] = 'PASS'
-        elif mean_qual >= self.thresholds['mean_quality_warn']:
-            assessment['metrics']['mean_quality'] = 'WARN'
+        elif mean_qual >= self.thresholds['mean_quality_Careful']:
+            assessment['metrics']['mean_quality'] = 'Careful'
             if assessment['overall'] == 'PASS':
-                assessment['overall'] = 'WARN'
+                assessment['overall'] = 'Careful'
         else:
-            assessment['metrics']['mean_quality'] = 'FAIL'
-            assessment['overall'] = 'FAIL'
+            assessment['metrics']['mean_quality'] = 'warn'
+            assessment['overall'] = 'warn'
         
         # GC content
         mean_gc = np.mean(stats['gc_content'])
         if self.thresholds['gc_content_min'] <= mean_gc <= self.thresholds['gc_content_max']:
             assessment['metrics']['gc_content'] = 'PASS'
         else:
-            assessment['metrics']['gc_content'] = 'WARN'
+            assessment['metrics']['gc_content'] = 'Careful'
             if assessment['overall'] == 'PASS':
-                assessment['overall'] = 'WARN'
+                assessment['overall'] = 'Careful'
         
         # Duplication rate
         dup_rate = stats['duplication_estimate']['duplication_rate']
         if dup_rate < 0.2:
             assessment['metrics']['duplication'] = 'PASS'
         elif dup_rate < 0.4:
-            assessment['metrics']['duplication'] = 'WARN'
+            assessment['metrics']['duplication'] = 'Careful'
             if assessment['overall'] == 'PASS':
-                assessment['overall'] = 'WARN'
+                assessment['overall'] = 'Careful'
         else:
-            assessment['metrics']['duplication'] = 'FAIL'
-            assessment['overall'] = 'FAIL'
+            assessment['metrics']['duplication'] = 'warn'
+            assessment['overall'] = 'warn'
         
         return assessment
     
@@ -721,12 +721,12 @@ class EnhancedFastqAnalyzer:
             color: white;
         }}
         
-        .status-warn {{
+        .status-Careful {{
             background-color: #f39c12;
             color: white;
         }}
         
-        .status-fail {{
+        .status-warn {{
             background-color: #e74c3c;
             color: white;
         }}
@@ -988,11 +988,11 @@ class EnhancedFastqAnalyzer:
         overall_pass = sum(1 for s in all_results.values() 
                           if all(a['overall'] == 'PASS' 
                           for a in s.get('assessment', {}).values()))
-        overall_warn = sum(1 for s in all_results.values() 
-                          if any(a['overall'] == 'WARN' 
+        overall_Careful = sum(1 for s in all_results.values() 
+                          if any(a['overall'] == 'Careful' 
                           for a in s.get('assessment', {}).values()))
-        overall_fail = sum(1 for s in all_results.values() 
-                          if any(a['overall'] == 'FAIL' 
+        overall_warn = sum(1 for s in all_results.values() 
+                          if any(a['overall'] == 'warn' 
                           for a in s.get('assessment', {}).values()))
         
         # Calculate total reads analyzed
@@ -1021,8 +1021,8 @@ class EnhancedFastqAnalyzer:
                 <div class="value">{overall_warn}</div>
             </div>
             <div class="summary-card">
-                <h3>Samples Failed</h3>
-                <div class="value">{overall_fail}</div>
+                <h3>Samples warned</h3>
+                <div class="value">{overall_warn}</div>
             </div>
         </div>
 """
@@ -1114,11 +1114,11 @@ class EnhancedFastqAnalyzer:
                     assessment = sample_data['assessment'][read_type]
                     summary = sample_data['summary'][read_type]
                     
-                    if assessment['metrics'].get('q30') == 'FAIL':
+                    if assessment['metrics'].get('q30') == 'warn':
                         recommendations.append(f"{read_type}: Low Q30 percentage ({summary['q30_percentage']:.1f}%). Consider re-sequencing.")
-                    if assessment['metrics'].get('duplication') == 'FAIL':
+                    if assessment['metrics'].get('duplication') == 'warn':
                         recommendations.append(f"{read_type}: High duplication rate ({summary['duplication_rate']*100:.1f}%). May indicate low library complexity.")
-                    if assessment['metrics'].get('gc_content') == 'WARN':
+                    if assessment['metrics'].get('gc_content') == 'Careful':
                         recommendations.append(f"{read_type}: GC content ({summary['mean_gc_content']:.1f}%) outside expected range. Check for contamination.")
             
             if recommendations:
