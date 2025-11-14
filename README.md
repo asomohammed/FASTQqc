@@ -333,7 +333,7 @@ output_directory/
 
 Each metric is automatically assessed as **PASS**, **WARN**, or **FAIL**:
 
-| Metric | Pass (✅) | Warn (⚠️) | Fail (❌) |
+| Metric | Pass (✅) | Careful (⚠️) | Warn (❌) |
 |--------|----------|----------|----------|
 | **Q30 Percentage** | ≥ 75% | 65-75% | < 65% |
 | **Mean Quality** | ≥ 30 | 25-30 | < 25 |
